@@ -2,9 +2,12 @@ package com.ferraro.poker.helper.pokerhelper;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,12 +15,15 @@ import java.util.List;
 
 
 public class PokerHelperActivity extends ActionBarActivity {
+    Engine engine;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poker_helper);
+        engine = Engine.getEngine();
+        addCardsToDisplay(engine.getPlayingCards());
     }
 
     @Override
@@ -58,7 +64,32 @@ public class PokerHelperActivity extends ActionBarActivity {
                 myCard.setBackgroundResource(0);
             }
         }
-      //  TextView myCard = (TextView) findViewById(view.getId());
-       // myCard.setBackgroundResource(R.drawable.button_border);
     }
+
+    private void addCardsToDisplay(List<Card> playingCards){
+        LinearLayout heartsCardList = (LinearLayout) findViewById(R.id.heartsCardView);
+
+        for(Card card: playingCards) {
+            TextView heart2TextView = new TextView(this);
+            heart2TextView.setLayoutParams(new ViewGroup.LayoutParams(
+                    120,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            heart2TextView.setText(card.getValue());
+            heart2TextView.setGravity(Gravity.CENTER);
+            heart2TextView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v)
+                {
+                    selectYourCard2();
+                }
+            });
+            heart2TextView.setBackgroundResource(R.drawable.playing_card_border);
+            heartsCardList.addView(heart2TextView);
+        }
+    }
+
+    public void selectYourCard2(){
+            TextView myCard = (TextView) findViewById(R.id.PlayerCard5);
+                myCard.setBackgroundResource(R.drawable.button_border);
+    }
+
 }
