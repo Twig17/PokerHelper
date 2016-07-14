@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,24 +47,46 @@ public class PokerHelperActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void selectYourCard(View view){
-        List<Integer> myCardIds = new ArrayList<Integer>();
-        myCardIds.add(R.id.PlayerCard1);
-        myCardIds.add(R.id.PlayerCard2);
-        myCardIds.add(R.id.PlayerCard3);
-        myCardIds.add(R.id.PlayerCard4);
-        myCardIds.add(R.id.PlayerCard5);
-        for(int id: myCardIds) {
-            TextView myCard = (TextView) findViewById(id);
-            if(id == view.getId()) {
-                myCard.setBackgroundResource(R.drawable.button_border);
+    public void newDeal(View view) {
+        List<PlayerCard> playerCards = engine.getPlayerCards();
+        for(PlayerCard playerCard: playerCards){
+            playerCard.setSelected(false);
+            playerCard.setCard(null);
+            TextView playerCardView = (TextView) findViewById(playerCard.getId());
+            playerCardView.setText(playerCard.getDefaultText());
+
+        }
+    }
+
+
+    /**
+     * One of the players Card slots has been selected
+     * set all others back without a border
+     * @param view
+     */
+    public void selectYourCardSpot(View view){
+        List<PlayerCard> myCardIds = engine.getPlayerCards();
+        for(PlayerCard card: myCardIds) {
+            TextView myCard = (TextView) findViewById(card.getId());
+            if(card.getId() == view.getId()) {
+                if(card.isSelected()) {
+                    myCard.setBackgroundResource(0);
+                    card.setSelected(false);
+                } else {
+                    myCard.setBackgroundResource(R.drawable.button_border);
+                    card.setSelected(true);
+                }
             }
             else {
                 myCard.setBackgroundResource(0);
+                card.setSelected(false);
             }
         }
     }
 
+    /**
+     * Have cards be displayed in GUI
+     */
     private void addCardsToDisplay(List<Card> playingCards){
         LinearLayout heartsCardList = (LinearLayout) findViewById(R.id.heartsCardView);
 
@@ -75,11 +96,12 @@ public class PokerHelperActivity extends ActionBarActivity {
                     120,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             heart2TextView.setText(card.getValue());
+            heart2TextView.setId(card.getId());
             heart2TextView.setGravity(Gravity.CENTER);
             heart2TextView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v)
                 {
-                    selectYourCard2();
+                    selectYourCard(v);
                 }
             });
             heart2TextView.setBackgroundResource(R.drawable.playing_card_border);
@@ -87,9 +109,37 @@ public class PokerHelperActivity extends ActionBarActivity {
         }
     }
 
-    public void selectYourCard2(){
-            TextView myCard = (TextView) findViewById(R.id.PlayerCard5);
-                myCard.setBackgroundResource(R.drawable.button_border);
+    /**
+     * Pick one of the 52 cards to be in your hand
+     */
+    public void selectYourCard(View view) {
+        boolean cardFound = false;
+        Card selectedCard = new Card(view.getId());
+        PlayerCard playerCardSlot = null;
+        List<PlayerCard> playerCardsList = engine.getPlayerCards();
+        selectedCard =  engine.getPlayingCards().get(engine.getPlayingCards().indexOf(selectedCard));
+        for(PlayerCard playerCard: playerCardsList){
+            if(playerCard.isSelected()) {
+                playerCardSlot = playerCard;
+                TextView myCard = (TextView) findViewById(playerCard.getId());
+                playerCard.setCard(selectedCard);
+                myCard.setText(selectedCard.getValue());
+                playerCard.setSelected(false);
+                myCard.setBackgroundResource(0);
+                cardFound = true;
+            }
+        }
+        if(cardFound) {
+            if(playerCardSlot.getCardNumber() < 5) {
+                for(PlayerCard playerCard: playerCardsList){
+                    if(playerCard.getCardNumber() == playerCardSlot.getCardNumber() +1 && playerCard.getCard() == null) {
+                        TextView myCard = (TextView) findViewById(playerCard.getId());
+                        myCard.setBackgroundResource(R.drawable.button_border);
+                        playerCard.setSelected(true);
+                    }
+                }
+            }
+        }
     }
 
 }

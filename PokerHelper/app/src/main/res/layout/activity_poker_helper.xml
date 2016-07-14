@@ -74,7 +74,7 @@
         <TextView android:text="Card 1"
             android:gravity="center"
             android:id="@+id/PlayerCard1"
-            android:onClick="selectYourCard"
+            android:onClick="selectYourCardSpot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
@@ -82,7 +82,7 @@
         <TextView android:text="Card 2"
             android:gravity="center"
             android:id="@+id/PlayerCard2"
-            android:onClick="selectYourCard"
+            android:onClick="selectYourCardSpot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
@@ -90,7 +90,7 @@
         <TextView android:text="Card 3"
             android:gravity="center"
             android:id="@+id/PlayerCard3"
-            android:onClick="selectYourCard"
+            android:onClick="selectYourCardSpot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
@@ -98,7 +98,7 @@
         <TextView android:text="Card 4"
             android:gravity="center"
             android:id="@+id/PlayerCard4"
-            android:onClick="selectYourCard"
+            android:onClick="selectYourCardSpot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
@@ -106,7 +106,7 @@
         <TextView android:text="Card 5"
             android:gravity="center"
             android:id="@+id/PlayerCard5"
-            android:onClick="selectYourCard"
+            android:onClick="selectYourCardSpot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
@@ -125,6 +125,7 @@
             android:id="@+id/newDealButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:onClick="newDeal"
             android:layout_weight="1"/>
 
         <Button android:text="Clear Cards"

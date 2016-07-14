@@ -4,15 +4,32 @@ package com.ferraro.poker.helper.pokerhelper;
  * Created by Nick on 7/11/2016.
  */
 public class Card {
+    private int id;
     private String value;
     private String suite;
     private String color;
-    private boolean selected;
 
-    public Card(String value, String suite) {
+    public Card(int id) {
+        this.id = id;
+    }
+
+    public Card(int id, String value, String suite) {
+        this.id = id;
         this.value = value;
         this.suite = suite;
-        selected = false;
+        if("Hearts".equals(suite) || "Diamonds".equals(suite)){
+            color = "Red";
+        } else if("Spades".equals(suite) || "Clubs".equals(suite)){
+            color = "Black";
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getValue() {
@@ -21,14 +38,6 @@ public class Card {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 
     public String getSuite() {
@@ -46,18 +55,12 @@ public class Card {
 
         Card card = (Card) o;
 
-        if (getValue() != null ? !getValue().equals(card.getValue()) : card.getValue() != null)
-            return false;
-        return !(getSuite() != null ? !getSuite().equals(card.getSuite()) : card.getSuite() != null);
+        return getId() == card.getId();
 
     }
 
     @Override
     public int hashCode() {
-        int result = getValue() != null ? getValue().hashCode() : 0;
-        result = 31 * result + (getSuite() != null ? getSuite().hashCode() : 0);
-        return result;
+        return getId();
     }
-
-
 }
