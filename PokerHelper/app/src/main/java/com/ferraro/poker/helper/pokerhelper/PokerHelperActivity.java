@@ -54,6 +54,7 @@ public class PokerHelperActivity extends ActionBarActivity {
             playerCard.setCard(null);
             TextView playerCardView = (TextView) findViewById(playerCard.getId());
             playerCardView.setText(playerCard.getDefaultText());
+            playerCardView.setBackgroundResource(0);
 
         }
     }
@@ -89,24 +90,41 @@ public class PokerHelperActivity extends ActionBarActivity {
      */
     private void addCardsToDisplay(List<Card> playingCards){
         LinearLayout heartsCardList = (LinearLayout) findViewById(R.id.heartsCardView);
+        LinearLayout diamondsCardList = (LinearLayout) findViewById(R.id.diamondsCardView);
+        LinearLayout clubsCardList = (LinearLayout) findViewById(R.id.clubsCardView);
+        LinearLayout spadesCardList = (LinearLayout) findViewById(R.id.spadesCardView);
 
         for(Card card: playingCards) {
-            TextView heart2TextView = new TextView(this);
-            heart2TextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    120,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            heart2TextView.setText(card.getValue());
-            heart2TextView.setId(card.getId());
-            heart2TextView.setGravity(Gravity.CENTER);
-            heart2TextView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v)
-                {
-                    selectYourCard(v);
-                }
-            });
-            heart2TextView.setBackgroundResource(R.drawable.playing_card_border);
-            heartsCardList.addView(heart2TextView);
+            if(AppConstants.HEARTS.equals(card.getSuite())) {
+                addCardToDisplayView(card, new TextView(this), heartsCardList);
+            }
+            if(AppConstants.CLUBS.equals(card.getSuite())) {
+                addCardToDisplayView(card, new TextView(this), clubsCardList);
+            }
+            if(AppConstants.DIAMONDS.equals(card.getSuite())) {
+                addCardToDisplayView(card, new TextView(this), diamondsCardList);
+            }
+            if(AppConstants.SPADES.equals(card.getSuite())) {
+                addCardToDisplayView(card, new TextView(this), spadesCardList);
+            }
         }
+    }
+
+    private void addCardToDisplayView(Card card, TextView textView, LinearLayout layout){
+        textView.setLayoutParams(new ViewGroup.LayoutParams(
+                120,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        textView.setText(card.getValue());
+        textView.setId(card.getId());
+        textView.setGravity(Gravity.CENTER);
+        textView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                selectYourCard(v);
+            }
+        });
+        textView.setBackgroundResource(R.drawable.playing_card_border);
+        layout.addView(textView);
     }
 
     /**
@@ -127,6 +145,7 @@ public class PokerHelperActivity extends ActionBarActivity {
                 playerCard.setSelected(false);
                 myCard.setBackgroundResource(0);
                 cardFound = true;
+                checkIfHandIsFull();
             }
         }
         if(cardFound) {
@@ -141,5 +160,27 @@ public class PokerHelperActivity extends ActionBarActivity {
             }
         }
     }
+
+    public void checkIfHandIsFull(View view) {
+        checkIfHandIsFull();
+    }
+
+    private void checkIfHandIsFull() {
+        List<PlayerCard> playerCardsList = engine.getPlayerCards();
+        for(PlayerCard playerCard: playerCardsList){
+            if(playerCard.getCard() == null ) {
+                return;
+            }
+        }
+        calculateWhatToDo();
+
+    }
+
+    private void calculateWhatToDo() {
+        TextView clearButton = (TextView) findViewById(R.id.PlayerCard4);
+        clearButton.setBackgroundResource(R.drawable.discard_card_border);
+    }
+
+
 
 }
