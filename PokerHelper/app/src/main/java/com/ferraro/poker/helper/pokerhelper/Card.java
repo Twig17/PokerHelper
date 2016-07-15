@@ -7,21 +7,17 @@ public class Card {
     private int id;
     private String value;
     private String suite;
-    private String color;
+    private int intValue;
 
     public Card(int id) {
         this.id = id;
     }
 
-    public Card(int id, String value, String suite) {
+    public Card(int id, String value, int intValue, String suite) {
         this.id = id;
         this.value = value;
         this.suite = suite;
-        if("Hearts".equals(suite) || "Diamonds".equals(suite)){
-            color = "Red";
-        } else if("Spades".equals(suite) || "Clubs".equals(suite)){
-            color = "Black";
-        }
+        this.intValue = intValue;
     }
 
     public int getId() {
@@ -46,6 +42,14 @@ public class Card {
 
     public void setSuite(String suite) {
         this.suite = suite;
+    }
+
+    public int getIntValue() {
+        return intValue;
+    }
+
+    public void setIntValue(int intValue) {
+        this.intValue = intValue;
     }
 
     @Override

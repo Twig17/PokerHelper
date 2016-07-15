@@ -55,8 +55,10 @@ public class PokerHelperActivity extends ActionBarActivity {
             TextView playerCardView = (TextView) findViewById(playerCard.getId());
             playerCardView.setText(playerCard.getDefaultText());
             playerCardView.setBackgroundResource(0);
-
         }
+        PlayerCard firstCard = playerCards.get(0);
+        TextView playerCardView = (TextView) findViewById(firstCard.getId());
+        selectYourCardSpot(playerCardView);
     }
 
 
@@ -73,7 +75,7 @@ public class PokerHelperActivity extends ActionBarActivity {
             if(playerCard.getId() == view.getId()) {
                 //if card was already selected unselect
                 if(playerCard.isSelected()) {
-                    decideBackGround(playerCard, AppConstants.SELECTED);
+                    decideBackGround(playerCard, "");
                     playerCard.setSelected(false);
                 } else {
                     //card was picked make it the currectly selected one
@@ -186,13 +188,27 @@ public class PokerHelperActivity extends ActionBarActivity {
                 return;
             }
         }
-        calculateWhatToDo();
+        calculateWhatToDo(playerCardsList);
 
     }
 
-    private void calculateWhatToDo() {
-        TextView clearButton = (TextView) findViewById(R.id.PlayerCard4);
-        clearButton.setBackgroundResource(R.drawable.heart_discard);
+    private void calculateWhatToDo(List<PlayerCard> playerCardsList) {
+        Rules rules = new Rules();
+        rules.execute(playerCardsList);
+        updateCards(playerCardsList);
+    }
+
+    private void updateCards(List<PlayerCard> playerCardsList) {
+        String whatToDo = "";
+        for(PlayerCard playerCard: playerCardsList) {
+            if(playerCard.isShouldKeep()) {
+                whatToDo = AppConstants.KEEP;
+            } else {
+                whatToDo = AppConstants.DISCARD;
+            }
+
+            decideBackGround(playerCard, whatToDo );
+        }
     }
 
     private void decideBackGround(PlayerCard playerCard, String type) {
@@ -214,6 +230,9 @@ public class PokerHelperActivity extends ActionBarActivity {
             else if(AppConstants.DISCARD.equals(type)) {
                 playerCardView.setBackgroundResource(R.drawable.heart_discard);
             }
+            else if(AppConstants.KEEP.equals(type)) {
+                playerCardView.setBackgroundResource(R.drawable.heart_keep);
+            }
             else {
                 playerCardView.setBackgroundResource(R.drawable.heart_card);
             }
@@ -225,6 +244,9 @@ public class PokerHelperActivity extends ActionBarActivity {
             }
             else if(AppConstants.DISCARD.equals(type)) {
                 playerCardView.setBackgroundResource(R.drawable.diamond_discard);
+            }
+            else if(AppConstants.KEEP.equals(type)) {
+                playerCardView.setBackgroundResource(R.drawable.diamond_keep);
             }
             else {
                 playerCardView.setBackgroundResource(R.drawable.diamond_card);
@@ -238,6 +260,9 @@ public class PokerHelperActivity extends ActionBarActivity {
             else if(AppConstants.DISCARD.equals(type)) {
                 playerCardView.setBackgroundResource(R.drawable.club_discard);
             }
+            else if(AppConstants.KEEP.equals(type)) {
+                playerCardView.setBackgroundResource(R.drawable.club_keep);
+            }
             else {
                 playerCardView.setBackgroundResource(R.drawable.club_card);
             }
@@ -249,6 +274,9 @@ public class PokerHelperActivity extends ActionBarActivity {
             }
             else if(AppConstants.DISCARD.equals(type)) {
                 playerCardView.setBackgroundResource(R.drawable.spade_discard);
+            }
+            else if(AppConstants.KEEP.equals(type)) {
+                playerCardView.setBackgroundResource(R.drawable.spade_keep);
             }
             else {
                 playerCardView.setBackgroundResource(R.drawable.spade_card);

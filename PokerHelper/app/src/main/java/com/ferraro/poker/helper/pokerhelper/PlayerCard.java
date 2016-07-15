@@ -8,6 +8,7 @@ public class PlayerCard {
     private int cardNumber;
     private Card card;
     private boolean selected;
+    private boolean shouldKeep;
     private String defaultText;
 
     public PlayerCard(int id, int cardNumber, String defaultText) {
@@ -15,6 +16,7 @@ public class PlayerCard {
         this.cardNumber = cardNumber;
         this.defaultText = defaultText;
         selected = false;
+        shouldKeep = false;
     }
 
     public int getId() {
@@ -57,4 +59,11 @@ public class PlayerCard {
         this.selected = selected;
     }
 
+    public boolean isShouldKeep() {
+        return shouldKeep;
+    }
+
+    public void setShouldKeep(boolean shouldKeep) {
+        this.shouldKeep = shouldKeep;
+    }
 }

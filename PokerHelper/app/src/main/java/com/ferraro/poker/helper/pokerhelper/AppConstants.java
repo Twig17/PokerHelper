@@ -12,5 +12,6 @@ public class AppConstants {
 
     public final static String DISCARD = "Discard";
     public final static String SELECTED = "Selected";
+    public final static String KEEP = "Keep";
     public final static String NORMAL = "Normal";
 }
