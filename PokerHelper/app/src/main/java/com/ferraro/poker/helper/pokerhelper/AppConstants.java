@@ -9,4 +9,8 @@ public class AppConstants {
     public final static String DIAMONDS = "Diamonds";
     public final static String CLUBS = "Clubs";
     public final static String SPADES = "Spades";
+
+    public final static String DISCARD = "Discard";
+    public final static String SELECTED = "Selected";
+    public final static String NORMAL = "Normal";
 }
