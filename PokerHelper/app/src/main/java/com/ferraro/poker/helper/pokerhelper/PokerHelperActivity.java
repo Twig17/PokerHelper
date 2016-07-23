@@ -1,5 +1,6 @@
 package com.ferraro.poker.helper.pokerhelper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ public class PokerHelperActivity extends ActionBarActivity {
         setContentView(R.layout.activity_poker_helper);
         engine = Engine.getEngine();
         addCardsToDisplay(engine.getPlayingCards());
+        selectFirstCardByDefault();
     }
 
     @Override
@@ -43,8 +45,18 @@ public class PokerHelperActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.practice_settings) {
+            startPractice();
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startPractice() {
+        Intent intent = new Intent(PokerHelperActivity.this, Practice.class);
+        startActivityForResult(intent, 1);
     }
 
     public void newDeal(View view) {

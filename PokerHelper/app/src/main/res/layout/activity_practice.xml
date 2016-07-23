@@ -1,0 +1,101 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.ferraro.poker.helper.pokerhelper.Practice">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:id="@+id/practiceCardsId"
+        android:orientation="horizontal">
+
+        <TextView android:text="Card 1"
+            android:gravity="center"
+            android:id="@+id/PlayerCard1"
+            android:onClick="selectCardToKeep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView android:text="Card 2"
+            android:gravity="center"
+            android:id="@+id/PlayerCard2"
+            android:onClick="selectCardToKeep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView android:text="Card 3"
+            android:gravity="center"
+            android:id="@+id/PlayerCard3"
+            android:onClick="selectCardToKeep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView android:text="Card 4"
+            android:gravity="center"
+            android:id="@+id/PlayerCard4"
+            android:onClick="selectCardToKeep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView android:text="Card 5"
+            android:gravity="center"
+            android:id="@+id/PlayerCard5"
+            android:onClick="selectCardToKeep"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:id="@+id/practiceResultId"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Results"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:id="@+id/practiceButtonsId"
+        android:orientation="horizontal">
+
+        <Button android:text="Deal Cards"
+            android:id="@+id/practiceDealButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="practiceDeal"
+            android:layout_weight="1"/>
+
+        <Button android:text="Get Result"
+            android:id="@+id/practiceResultButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="practiceResult"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

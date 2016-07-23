@@ -3,6 +3,7 @@ package com.ferraro.poker.helper.pokerhelper;
 import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,9 @@ public class Rules  extends ActionBarActivity {
             }
             return;
         }
-        //Rule 9 -- needs to be added
+        if(isFourToStraightFlush()) { //Rule 9
+            return;
+        }
         if(isTwoPair() ) { //Rule 10
             return;
         }
@@ -90,7 +93,9 @@ public class Rules  extends ActionBarActivity {
             return;
         }
         //Rule 16 -- needs to be done
-        //Rule 17 -- needs to be done
+        if(isThreeToStraightFlush()) { //Rule 17
+            return;
+        }
         if(isSuitedQJ() ) { //Rule 18
             return;
         }
@@ -101,8 +106,12 @@ public class Rules  extends ActionBarActivity {
         if(isSuitedAKorAQorAJ() ) { //Rule 21
             return;
         }
-        //Rule 22 -- needs to be done
-        //Rule 23 -- needs to be done
+        if(isFourToStraight() ) { //Rule 22 -- needs to be modified
+            return;
+        }
+        /*if(isThreeToStraight() ) { //Rule 23 -- needs to be modified
+            return;
+        }*/
         if(isUnSuitedJQK() ) { //Rule 24
             return;
         }
@@ -848,5 +857,206 @@ public class Rules  extends ActionBarActivity {
         return false;
     }
 
+    private boolean isFourToStraightFlush() {
+        List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
+        List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
+        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
+        List<Integer> straight4 = Arrays.asList(new Integer[]{5,6,7,8,9});
+        List<Integer> straight5 = Arrays.asList(new Integer[]{6,7,8,9,10});
+        List<Integer> straight6 = Arrays.asList(new Integer[]{7,8,9,10,11});
+        List<Integer> straight7 = Arrays.asList(new Integer[]{8,9,10,11,12});
+        List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{10, 11, 12, 13, 14});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight1);
+        possibleStraights.add(straight2);
+        possibleStraights.add(straight3);
+        possibleStraights.add(straight4);
+        possibleStraights.add(straight5);
+        possibleStraights.add(straight6);
+        possibleStraights.add(straight7);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
 
+        List<PlayerCard> cardsWithSameSuit = null;
+        for(String keySuit :  suitToCardMap.keySet() ) {
+            if(4 <= suitToCardMap.get(keySuit).size() ) {
+                cardsWithSameSuit = suitToCardMap.get(keySuit);
+            }
+        }
+        if(cardsWithSameSuit == null) {
+            return false;
+        }
+        int matchesIArray = 0;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: cardsWithSameSuit) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                   matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 4) {
+                return true;
+            }
+            matchesIArray = 0;
+        }
+        return false;
+    }
+
+    private boolean isThreeToStraightFlush() {
+        List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
+        List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
+        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
+        List<Integer> straight4 = Arrays.asList(new Integer[]{5,6,7,8,9});
+        List<Integer> straight5 = Arrays.asList(new Integer[]{6,7,8,9,10});
+        List<Integer> straight6 = Arrays.asList(new Integer[]{7,8,9,10,11});
+        List<Integer> straight7 = Arrays.asList(new Integer[]{8,9,10,11,12});
+        List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{10, 11, 12, 13, 14});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight1);
+        possibleStraights.add(straight2);
+        possibleStraights.add(straight3);
+        possibleStraights.add(straight4);
+        possibleStraights.add(straight5);
+        possibleStraights.add(straight6);
+        possibleStraights.add(straight7);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
+
+        List<PlayerCard> cardsWithSameSuit = null;
+        for(String keySuit :  suitToCardMap.keySet() ) {
+            if(3 <= suitToCardMap.get(keySuit).size() ) {
+                cardsWithSameSuit = suitToCardMap.get(keySuit);
+            }
+        }
+        if(cardsWithSameSuit == null) {
+            return false;
+        }
+        int matchesIArray = 0;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: cardsWithSameSuit) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                    matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 3) {
+                return true;
+            }
+            matchesIArray = 0;
+        }
+        return false;
+    }
+
+    private boolean isFourToStraight() {
+        List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
+        List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
+        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
+        List<Integer> straight4 = Arrays.asList(new Integer[]{5,6,7,8,9});
+        List<Integer> straight5 = Arrays.asList(new Integer[]{6,7,8,9,10});
+        List<Integer> straight6 = Arrays.asList(new Integer[]{7,8,9,10,11});
+        List<Integer> straight7 = Arrays.asList(new Integer[]{8,9,10,11,12});
+        List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{10, 11, 12, 13, 14});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight1);
+        possibleStraights.add(straight2);
+        possibleStraights.add(straight3);
+        possibleStraights.add(straight4);
+        possibleStraights.add(straight5);
+        possibleStraights.add(straight6);
+        possibleStraights.add(straight7);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
+
+        int matchesIArray = 0;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: playerCardsList) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                    matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 4) {
+                return true;
+            }
+            matchesIArray = 0;
+        }
+        return false;
+       }
+
+    private boolean isThreeToStraight() {
+        List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
+        List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
+        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
+        List<Integer> straight4 = Arrays.asList(new Integer[]{5,6,7,8,9});
+        List<Integer> straight5 = Arrays.asList(new Integer[]{6,7,8,9,10});
+        List<Integer> straight6 = Arrays.asList(new Integer[]{7,8,9,10,11});
+        List<Integer> straight7 = Arrays.asList(new Integer[]{8,9,10,11,12});
+        List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{10, 11, 12, 13, 14});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight1);
+        possibleStraights.add(straight2);
+        possibleStraights.add(straight3);
+        possibleStraights.add(straight4);
+        possibleStraights.add(straight5);
+        possibleStraights.add(straight6);
+        possibleStraights.add(straight7);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
+
+        int matchesIArray = 0;
+        boolean result = false;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: playerCardsList) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                    matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 3) {
+                result = true;
+            }
+            matchesIArray = 0;
+        }
+        return result;
+    }
 }

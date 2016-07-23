@@ -20,6 +20,10 @@
             android:name=".PokerHelperActivity"
             android:label="@string/title_activity_poker_helper" >
         </activity>
+        <activity
+            android:name=".Practice"
+            android:label="@string/title_activity_practice" >
+        </activity>
     </application>
 
 </manifest>

@@ -126,12 +126,12 @@
         android:orientation="horizontal">
 
         <TextView android:text="Card 1"
-            android:gravity="center"
-            android:id="@+id/PlayerCard1"
-            android:onClick="selectYourCardSpot"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+        android:gravity="center"
+        android:id="@+id/PlayerCard1"
+        android:onClick="selectYourCardSpot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
 
         <TextView android:text="Card 2"
             android:gravity="center"
