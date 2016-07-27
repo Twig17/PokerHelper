@@ -14,10 +14,15 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        engine = Engine.getEngine();
+        startJacksOrBetter();
+       // setContentView(R.layout.activity_main);
+       //engine = Engine.getEngine();
     }
 
+    public void startJacksOrBetter() {
+        Intent intent = new Intent(MainActivity.this, PokerHelperActivity.class);
+        startActivityForResult(intent, 1);
+    }
 
     public void startJacksOrBetter(View view) {
         Intent intent = new Intent(MainActivity.this, PokerHelperActivity.class);

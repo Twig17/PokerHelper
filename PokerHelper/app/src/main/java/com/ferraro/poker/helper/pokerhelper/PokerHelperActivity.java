@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,11 +17,13 @@ import java.util.List;
 
 public class PokerHelperActivity extends ActionBarActivity {
     Engine engine;
+    boolean buttonLocked = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       //setTitle("PokerHelper");
         setContentView(R.layout.activity_poker_helper);
         engine = Engine.getEngine();
         addCardsToDisplay(engine.getPlayingCards());
@@ -54,13 +57,22 @@ public class PokerHelperActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startPractice() {
-        Intent intent = new Intent(PokerHelperActivity.this, Practice.class);
-        startActivityForResult(intent, 1);
+    /**
+     * have the first card default to selected so can just start picking cards for hand
+     */
+    public void selectFirstCardByDefault() {
+        PlayerCard firstCard = engine.getPlayerCards().get(0);
+        TextView playerCardView = (TextView) findViewById(firstCard.getId());
+        firstCard.setSelected(true);
+        decideBackGround(firstCard, AppConstants.SELECTED);
     }
 
+    /**
+     * clear all selected cards so can start over
+     */
     public void newDeal(View view) {
         List<PlayerCard> playerCards = engine.getPlayerCards();
+        enableFixCardsButton(false);
         for(PlayerCard playerCard: playerCards){
             playerCard.setSelected(false);
             playerCard.setCard(null);
@@ -73,6 +85,11 @@ public class PokerHelperActivity extends ActionBarActivity {
         selectYourCardSpot(playerCardView);
     }
 
+    public void startPractice() {
+        Intent intent = new Intent(PokerHelperActivity.this, Practice.class);
+        startActivityForResult(intent, 1);
+    }
+
 
     /**
      * One of the players Card slots has been selected
@@ -80,6 +97,9 @@ public class PokerHelperActivity extends ActionBarActivity {
      * @param view
      */
     public void selectYourCardSpot(View view){
+        if(!buttonLocked) {
+            return;
+        }
         List<PlayerCard> myCardIds = engine.getPlayerCards();
         for(PlayerCard playerCard: myCardIds) {
             TextView myCard = (TextView) findViewById(playerCard.getId());
@@ -189,9 +209,14 @@ public class PokerHelperActivity extends ActionBarActivity {
         }
     }
 
-    public void checkIfHandIsFull(View view) {
-        checkIfHandIsFull();
+    public void fixASelectedCard(View view) {
+        enableFixCardsButton(false);
+        for(PlayerCard playerCard: engine.getPlayerCards()){
+                playerCard.setSelected(false);
+                decideBackGround(playerCard, "");
+        }
     }
+
 
     private void checkIfHandIsFull() {
         List<PlayerCard> playerCardsList = engine.getPlayerCards();
@@ -205,9 +230,10 @@ public class PokerHelperActivity extends ActionBarActivity {
     }
 
     private void calculateWhatToDo(List<PlayerCard> playerCardsList) {
-        Rules rules = new Rules();
-        rules.execute(playerCardsList);
+        JacksOrBetterRules jacksOrBetterRules = new JacksOrBetterRules();
+        jacksOrBetterRules.execute(playerCardsList);
         updateCards(playerCardsList);
+        enableFixCardsButton(true);
     }
 
     private void updateCards(List<PlayerCard> playerCardsList) {
@@ -295,6 +321,17 @@ public class PokerHelperActivity extends ActionBarActivity {
             }
         }
 
+    }
+
+    private void enableFixCardsButton(boolean action) {
+        Button fixCardButton = (Button) findViewById(R.id.findResultButton);
+        if(action) {
+            buttonLocked = false;
+            fixCardButton.setEnabled(true);
+        } else {
+            buttonLocked = true;
+            fixCardButton.setEnabled(false);
+        }
     }
 
 }

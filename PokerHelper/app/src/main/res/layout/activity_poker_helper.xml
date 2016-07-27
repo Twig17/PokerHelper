@@ -20,11 +20,6 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView android:text="Hearts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
-
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,11 +39,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <TextView android:text="Spades"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
 
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -70,11 +60,6 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView android:text="Clubs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
-
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -94,11 +79,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
-
-            <TextView android:text="Diamonds"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="7"/>
 
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -182,15 +162,14 @@
             android:onClick="newDeal"
             android:layout_weight="1"/>
 
-        <Button android:text="Find Result"
+        <Button android:text="Fix Cards Selected"
             android:id="@+id/findResultButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="checkIfHandIsFull"
+            android:onClick="fixASelectedCard"
+            android:enabled="false"
             android:layout_weight="1"/>
 
-
     </LinearLayout>
-
 
 </LinearLayout>
