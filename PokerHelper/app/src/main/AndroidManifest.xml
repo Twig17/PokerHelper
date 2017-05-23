@@ -10,15 +10,16 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
+
+        </activity>
+        <activity
+            android:name=".PokerHelperActivity"
+            android:label="@string/title_activity_poker_helper" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".PokerHelperActivity"
-            android:label="@string/title_activity_poker_helper" >
         </activity>
         <activity
             android:name=".Practice"

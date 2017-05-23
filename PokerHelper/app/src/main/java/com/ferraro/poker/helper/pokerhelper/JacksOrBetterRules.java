@@ -92,26 +92,30 @@ public class JacksOrBetterRules extends ActionBarActivity {
         if(isLowPair() ) { //Rule 15
             return;
         }
-        //Rule 16 -- needs to be done
+        if(isFourToOutsideStrightMinimalHighCards()) { //Rule 16
+            return;
+        }
         if(isThreeToStraightFlush()) { //Rule 17
             return;
         }
         if(isSuitedQJ() ) { //Rule 18
             return;
         }
-        ///Rule 19 -- needs to be done
+        if(isFourToStraightWithFourHighCards()) { //Rule 19
+            return;
+        }
         if(isSuitedKQorKj() ) { //Rule 20
             return;
         }
         if(isSuitedAKorAQorAJ() ) { //Rule 21
             return;
         }
-        if(isFourToStraight() ) { //Rule 22 -- needs to be modified
+        if(isFourToStraightWithThreeHighCards() ) { //Rule 22
             return;
         }
-        /*if(isThreeToStraight() ) { //Rule 23 -- needs to be modified
+        if(isThreeToStraight() ) { //Rule 23
             return;
-        }*/
+        }
         if(isUnSuitedJQK() ) { //Rule 24
             return;
         }
@@ -151,6 +155,12 @@ public class JacksOrBetterRules extends ActionBarActivity {
 
     }
 
+    private void cleanCards() {
+        for(PlayerCard card : playerCardsList) {
+            card.setShouldKeep(false);
+        }
+    }
+
     private void sortCards() {
         for(PlayerCard playerCard: playerCardsList) {
             playerCard.setShouldKeep(false);
@@ -171,6 +181,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
 
 
     private boolean isRoyalFlush() {
+        cleanCards();
         String suit ="";
         if(sortedMap.size() != 5) {
             return false;
@@ -192,6 +203,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isStraightFlush() {
+        cleanCards();
         int previousValue = 0;
         String suit ="";
         if(sortedMap.size() != 5) {
@@ -220,6 +232,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFourOfAKind() {
+        cleanCards();
         boolean result = false;
         List<PlayerCard> cardsWithSameSuit = null;
         for(int keySuit :  cardValueToCardMap.keySet() ) {
@@ -239,6 +252,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFourToRoyalFlush() {
+        cleanCards();
         String suit ="";
         ArrayList<Integer> royalFlush = new ArrayList<>();
         royalFlush.add(10);
@@ -273,6 +287,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFullHouse() {
+        cleanCards();
         boolean hasThreeSame = false;
         boolean hasTwoSame = false;
         boolean result = false;
@@ -292,6 +307,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFlush() {
+        cleanCards();
         boolean result = false;
         List<PlayerCard> cardsWithSameSuit = null;
         for(String keySuit :  suitToCardMap.keySet() ) {
@@ -311,6 +327,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isThreeOfAKind() {
+        cleanCards();
         boolean result = false;
         List<PlayerCard> cardsWithSameSuit = null;
         for(int keySuit :  cardValueToCardMap.keySet() ) {
@@ -330,6 +347,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isStraight() {
+        cleanCards();
         int previousValue = 0;
         String suit ="";
         if(sortedMap.size() != 5) {
@@ -350,6 +368,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isTwoPair() {
+        cleanCards();
         int hasTwoPair = 0;
         boolean result = false;
         for(int keySuit :  cardValueToCardMap.keySet() ) {
@@ -374,6 +393,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isHighPair() {
+        cleanCards();
         boolean result = false;
         int highCards = 0;
         List<PlayerCard> cardsWithSameValue = null;
@@ -398,6 +418,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isThreeToRoyalFlush() {
+        cleanCards();
         String suit ="";
         ArrayList<Integer> royalFlush = new ArrayList<>();
         royalFlush.add(10);
@@ -432,6 +453,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFourToFlush() {
+        cleanCards();
         boolean result = false;
         List<PlayerCard> cardsWithSameSuit = null;
         for(String keySuit :  suitToCardMap.keySet() ) {
@@ -451,6 +473,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isUnsuitedTJQK() {
+        cleanCards();
         boolean result = false;
         boolean hasT = false;
         boolean hasJ = false;
@@ -487,6 +510,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isLowPair() {
+        cleanCards();
         boolean result = false;
         int lowCards = 0;
         List<PlayerCard> cardsWithSameValue = null;
@@ -511,6 +535,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isSuitedQJ() {
+        cleanCards();
         boolean result = false;
         boolean hasJ = false;
         boolean hasQ = false;
@@ -541,7 +566,41 @@ public class JacksOrBetterRules extends ActionBarActivity {
         return result;
     }
 
+    private boolean isFourToStraightWithFourHighCards() {
+        cleanCards();
+        List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{10,11,12,13,14});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
+
+        int matchesIArray = 0;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: playerCardsList) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                    matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 4) {
+                return true;
+            }
+            matchesIArray = 0;
+        }
+        return false;
+    }
+
     private boolean isSuitedKQorKj() {
+        cleanCards();
         boolean result = false;
         boolean hasK = false;
         boolean hasJ = false;
@@ -578,6 +637,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isSuitedAKorAQorAJ() {
+        cleanCards();
         boolean result = false;
         boolean hasA = false;
         boolean hasK = false;
@@ -619,6 +679,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isUnSuitedJQK() {
+        cleanCards();
         boolean result = false;
         boolean hasK = false;
         boolean hasJ = false;
@@ -649,6 +710,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isUnSuitedJQ() {
+        cleanCards();
         boolean result = false;
         boolean hasJ = false;
         boolean hasQ = false;
@@ -673,6 +735,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
         return result;
     }
     private boolean isSuitedTJ() {
+        cleanCards();
         boolean result = false;
         boolean hasJ = false;
         boolean hasT = false;
@@ -704,6 +767,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isUnSuitedKPlus() {
+        cleanCards();
         boolean result = false;
         boolean hasOther = false;
         boolean hasK = false;
@@ -729,6 +793,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isSuitedTQ() {
+        cleanCards();
         boolean result = false;
         boolean hasJ = false;
         boolean hasQ = false;
@@ -760,6 +825,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isUnSuitedAPlus() {
+        cleanCards();
         boolean result = false;
         boolean hasOther = false;
         boolean hasA = false;
@@ -785,6 +851,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isSuitedTK() {
+        cleanCards();
         boolean result = false;
         boolean hasT = false;
         boolean hasK = false;
@@ -816,6 +883,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isHasJ() {
+        cleanCards();
         for (PlayerCard playerCard : playerCardsList) {
             if (playerCard.getCard().getIntValue() >= 11) {
                 playerCard.setShouldKeep(true);
@@ -826,6 +894,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isHasQ() {
+        cleanCards();
         for (PlayerCard playerCard : playerCardsList) {
             if (playerCard.getCard().getIntValue() >= 12) {
                 playerCard.setShouldKeep(true);
@@ -837,6 +906,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
 
 
     private boolean isHasK() {
+        cleanCards();
         for (PlayerCard playerCard : playerCardsList) {
             if (playerCard.getCard().getIntValue() >= 13) {
                 playerCard.setShouldKeep(true);
@@ -848,6 +918,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
 
 
     private boolean isHasA() {
+        cleanCards();
         for (PlayerCard playerCard : playerCardsList) {
             if (playerCard.getCard().getIntValue() >= 14) {
                 playerCard.setShouldKeep(true);
@@ -858,6 +929,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
     }
 
     private boolean isFourToStraightFlush() {
+        cleanCards();
         List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
         List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
         List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
@@ -912,7 +984,64 @@ public class JacksOrBetterRules extends ActionBarActivity {
         return false;
     }
 
+    private boolean isFourToOutsideStrightMinimalHighCards() {
+        cleanCards();
+        List<Integer> straight1 = Arrays.asList(new Integer[]{3,4,5,6});
+        List<Integer> straight2 = Arrays.asList(new Integer[]{2,3,4,5});
+        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7});
+        List<Integer> straight4 = Arrays.asList(new Integer[]{3,4,5,6});
+        List<Integer> straight5 = Arrays.asList(new Integer[]{5,6,7,8});
+        List<Integer> straight6 = Arrays.asList(new Integer[]{4,5,6,7});
+        List<Integer> straight7 = Arrays.asList(new Integer[]{6,7,8,9});
+        List<Integer> straight8 = Arrays.asList(new Integer[]{5,6,7,8});
+        List<Integer> straight9 = Arrays.asList(new Integer[]{7,8,9,10});
+        List<Integer> straight10 = Arrays.asList(new Integer[]{6,7,8,9});
+        List<Integer> straight11 = Arrays.asList(new Integer[]{8,9,10,11});
+        List<Integer> straight12 = Arrays.asList(new Integer[]{7,8,9,10});
+        List<Integer> straight13 = Arrays.asList(new Integer[]{8,9,10,11});
+        ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
+        possibleStraights.add(straight1);
+        possibleStraights.add(straight2);
+        possibleStraights.add(straight3);
+        possibleStraights.add(straight4);
+        possibleStraights.add(straight5);
+        possibleStraights.add(straight6);
+        possibleStraights.add(straight7);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight8);
+        possibleStraights.add(straight9);
+        possibleStraights.add(straight10);
+        possibleStraights.add(straight11);
+        possibleStraights.add(straight12);
+        possibleStraights.add(straight13);
+
+        int matchesIArray = 0;
+        for(List<Integer> intArray: possibleStraights) {
+            matchesIArray = 0;
+            for(int i = 0; i < intArray.size(); i++) {
+                boolean shouldRemove = false;
+                for(PlayerCard playerCard: playerCardsList) {
+                    if(intArray.get(i) == playerCard.getCard().getIntValue())
+                    {
+                        playerCard.setShouldKeep(true);
+                        shouldRemove = true;
+                    }
+                }//end of playercards
+                if(shouldRemove) {
+                    matchesIArray++ ;
+                    shouldRemove = false;
+                }
+            }//end of int array
+            if(matchesIArray == 4) {
+                return true;
+            }
+            matchesIArray = 0;
+        }
+        return false;
+    }
+
     private boolean isThreeToStraightFlush() {
+        cleanCards();
         List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
         List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
         List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
@@ -967,23 +1096,12 @@ public class JacksOrBetterRules extends ActionBarActivity {
         return false;
     }
 
-    private boolean isFourToStraight() {
-        List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
-        List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
-        List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
-        List<Integer> straight4 = Arrays.asList(new Integer[]{5,6,7,8,9});
-        List<Integer> straight5 = Arrays.asList(new Integer[]{6,7,8,9,10});
-        List<Integer> straight6 = Arrays.asList(new Integer[]{7,8,9,10,11});
+    private boolean isFourToStraightWithThreeHighCards() {
+        cleanCards();
         List<Integer> straight7 = Arrays.asList(new Integer[]{8,9,10,11,12});
         List<Integer> straight8 = Arrays.asList(new Integer[]{9,10,11,12,13});
         List<Integer> straight9 = Arrays.asList(new Integer[]{10, 11, 12, 13, 14});
         ArrayList<List<Integer>> possibleStraights = new ArrayList<List<Integer>>();
-        possibleStraights.add(straight1);
-        possibleStraights.add(straight2);
-        possibleStraights.add(straight3);
-        possibleStraights.add(straight4);
-        possibleStraights.add(straight5);
-        possibleStraights.add(straight6);
         possibleStraights.add(straight7);
         possibleStraights.add(straight8);
         possibleStraights.add(straight9);
@@ -1014,6 +1132,7 @@ public class JacksOrBetterRules extends ActionBarActivity {
        }
 
     private boolean isThreeToStraight() {
+        cleanCards();
         List<Integer> straight1 = Arrays.asList(new Integer[]{2,3,4,5,6});
         List<Integer> straight2 = Arrays.asList(new Integer[]{3,4,5,6,7});
         List<Integer> straight3 = Arrays.asList(new Integer[]{4,5,6,7,8});
@@ -1053,9 +1172,10 @@ public class JacksOrBetterRules extends ActionBarActivity {
                 }
             }//end of int array
             if(matchesIArray == 3) {
-                result = true;
+                return true;
             }
             matchesIArray = 0;
+            cleanCards();
         }
         return result;
     }
