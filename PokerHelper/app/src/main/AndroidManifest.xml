@@ -15,6 +15,10 @@
         <activity
             android:name=".PokerHelperActivity"
             android:label="@string/title_activity_poker_helper" >
+        </activity>
+        <activity
+            android:name="SplashActivity"
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
