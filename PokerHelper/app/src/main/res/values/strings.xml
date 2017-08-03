@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="practice_settings">Practice</string>
+    <string name="adMod_id">ca-app-pub-3994565035944755~3130948421</string>
     <string name="title_activity_poker_helper">PokerHelperActivity</string>
     <string name="title_activity_practice">practice</string>
 </resources>

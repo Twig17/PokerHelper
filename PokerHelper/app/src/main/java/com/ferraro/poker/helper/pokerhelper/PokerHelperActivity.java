@@ -2,7 +2,7 @@ package com.ferraro.poker.helper.pokerhelper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +12,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.List;
 
 
-public class PokerHelperActivity extends ActionBarActivity {
+public class PokerHelperActivity extends AppCompatActivity {
     Engine engine;
     boolean buttonLocked = true;
+    private AdView mAdView;
 
 
     @Override
@@ -27,6 +33,25 @@ public class PokerHelperActivity extends ActionBarActivity {
         setContentView(R.layout.activity_poker_helper);
         engine = Engine.getEngine();
         addCardsToDisplay(engine.getPlayingCards());
+
+        InterstitialAd mInterstitialAd;
+        mInterstitialAd = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId(getString(R.string.adMod_id));
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+
+                //Begin Game, continue with app
+            }
+        });
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
+
         selectFirstCardByDefault();
     }
 
@@ -332,6 +357,30 @@ public class PokerHelperActivity extends ActionBarActivity {
             buttonLocked = true;
             fixCardButton.setEnabled(false);
         }
+    }
+
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
 
 }
