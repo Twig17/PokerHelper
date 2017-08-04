@@ -17,7 +17,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+
 import java.util.List;
+import java.util.Map;
 
 
 public class PokerHelperActivity extends AppCompatActivity {
@@ -42,7 +44,6 @@ public class PokerHelperActivity extends AppCompatActivity {
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-
                 //Begin Game, continue with app
             }
         });
@@ -87,7 +88,6 @@ public class PokerHelperActivity extends AppCompatActivity {
      */
     public void selectFirstCardByDefault() {
         PlayerCard firstCard = engine.getPlayerCards().get(0);
-        TextView playerCardView = (TextView) findViewById(firstCard.getId());
         firstCard.setSelected(true);
         decideBackGround(firstCard, AppConstants.SELECTED);
     }
@@ -110,6 +110,9 @@ public class PokerHelperActivity extends AppCompatActivity {
         selectYourCardSpot(playerCardView);
     }
 
+    /**
+     * Practice by being given 5 cards and choose which ones you should keep
+     */
     public void startPractice() {
         Intent intent = new Intent(PokerHelperActivity.this, Practice.class);
         startActivityForResult(intent, 1);
@@ -287,63 +290,19 @@ public class PokerHelperActivity extends AppCompatActivity {
         }
 
         if(AppConstants.HEARTS.equals(card.getSuite())) {
-            if(AppConstants.SELECTED.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.heart_selected);
-            }
-            else if(AppConstants.DISCARD.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.heart_discard);
-            }
-            else if(AppConstants.KEEP.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.heart_keep);
-            }
-            else {
-                playerCardView.setBackgroundResource(R.drawable.heart_card);
-            }
+            updateCardBackground(playerCardView, type, AppConstants.heartBackgroundIds);
         }
 
         if(AppConstants.DIAMONDS.equals(card.getSuite())) {
-            if(AppConstants.SELECTED.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.diamond_selected);
-            }
-            else if(AppConstants.DISCARD.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.diamond_discard);
-            }
-            else if(AppConstants.KEEP.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.diamond_keep);
-            }
-            else {
-                playerCardView.setBackgroundResource(R.drawable.diamond_card);
-            }
+            updateCardBackground(playerCardView, type, AppConstants.diamondBackgroundIds);
         }
 
         if(AppConstants.CLUBS.equals(card.getSuite())) {
-            if(AppConstants.SELECTED.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.club_selected);
-            }
-            else if(AppConstants.DISCARD.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.club_discard);
-            }
-            else if(AppConstants.KEEP.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.club_keep);
-            }
-            else {
-                playerCardView.setBackgroundResource(R.drawable.club_card);
-            }
+            updateCardBackground(playerCardView, type, AppConstants.clubBackgroundIds);
         }
 
         if(AppConstants.SPADES.equals(card.getSuite())) {
-            if(AppConstants.SELECTED.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.spade_selected);
-            }
-            else if(AppConstants.DISCARD.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.spade_discard);
-            }
-            else if(AppConstants.KEEP.equals(type)) {
-                playerCardView.setBackgroundResource(R.drawable.spade_keep);
-            }
-            else {
-                playerCardView.setBackgroundResource(R.drawable.spade_card);
-            }
+            updateCardBackground(playerCardView, type, AppConstants.spadeBackgroundIds);
         }
 
     }
@@ -356,6 +315,21 @@ public class PokerHelperActivity extends AppCompatActivity {
         } else {
             buttonLocked = true;
             fixCardButton.setEnabled(false);
+        }
+    }
+
+    private void updateCardBackground(TextView playerCardView, String type, Map<String, Integer> idMap) {
+        if(AppConstants.SELECTED.equals(type)) {
+            playerCardView.setBackgroundResource(idMap.get(AppConstants.SELECTED));
+        }
+        else if(AppConstants.DISCARD.equals(type)) {
+            playerCardView.setBackgroundResource(idMap.get(AppConstants.DISCARD));
+        }
+        else if(AppConstants.KEEP.equals(type)) {
+            playerCardView.setBackgroundResource(idMap.get(AppConstants.KEEP));
+        }
+        else {
+            playerCardView.setBackgroundResource(idMap.get(AppConstants.NORMAL));
         }
     }
 

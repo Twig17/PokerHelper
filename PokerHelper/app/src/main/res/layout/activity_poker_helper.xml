@@ -29,7 +29,7 @@
                 <LinearLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/heartsCardView"
+                    android:id="@+id/spadesCardView"
                     android:orientation="horizontal">
 
                 </LinearLayout>
@@ -49,7 +49,7 @@
                 <LinearLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/spadesCardView"
+                    android:id="@+id/heartsCardView"
                     android:orientation="horizontal">
 
                 </LinearLayout>
@@ -183,14 +183,14 @@
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
             ads:adSize="BANNER"
             ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
         </com.google.android.gms.ads.AdView>
-
+        <!--Test adUnitId = ca-app-pub-3940256099942544/6300978111-->
+        <!--Prod adUnitId = @string/adMod_id-->
     </LinearLayout>
 
 </LinearLayout>
